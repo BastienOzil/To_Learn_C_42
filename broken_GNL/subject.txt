@@ -2,7 +2,7 @@ Assignment name   : broken_GNL
 Expected files    : broken_GNL.c get_next_line.h
 Allowed functions : read, free, malloc
 
-Vous devez completer et corriger get_next_line.c et get_next_line.h
+Vous devez completer et corriger broken_GNL.c et get_next_line.h
 
 Le prototype doit être :
 char *get_next_line(int fd);
