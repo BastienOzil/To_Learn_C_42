@@ -88,8 +88,7 @@ size_t ft_strlen(char *s)
  *
  * IMPORTANT: Cette fonction modifie s1 et libère l'ancienne mémoire
  */
-int str_append_mem(char **s1, const char *s2, size_t size2) // Fix bug #4: double pointeur
-// etant une fonction `int` il n'as pas besoin de * pour return une valeur simple
+int str_append_mem(char **s1, const char *s2, size_t size2) // Fix bug #4: double pointeur pour char *s1
 {
     // Vérifications de sécurité
     if (!s1 || !*s1)
