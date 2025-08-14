@@ -36,9 +36,11 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 
-	for (i = 0; i < search_len; i++)
+	i = 0;
+	while (i < search_len)
 	{
 		replacement[i] = '*';
+		i++;
 	}
 	replacement[search_len] = '\0';
 	replacement_len = search_len;

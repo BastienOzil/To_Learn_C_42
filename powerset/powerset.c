@@ -63,6 +63,7 @@ int	main(int argc, char *argv[])
 	}
 	find_subsets(numbers, count, target, current_subset, 0, 0, 0);
 	free(numbers);
+}
 	free(current_subset);
 	return (0);
 }
