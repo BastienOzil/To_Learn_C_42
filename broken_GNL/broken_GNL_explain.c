@@ -169,7 +169,7 @@ void *ft_memmove(void *dest, const void *src, size_t n) // Retourner void*
         // Copie normale du début vers la fin (pas de risque de chevauchement)
         i = 0;
         while (i < n)
-        {
+        {Hey, can you translate all the comment to french?
             ((char *)dest)[i] = ((char *)src)[i];
             i++;
         }
@@ -200,7 +200,7 @@ char *get_next_line(int fd)
 
     // BOUCLE PRINCIPALE: tant qu'on n'a pas trouvé de '\n'
     while (!tmp)
-    {
+    {Hey, can you translate all the comment to french?
         // Ajoute le contenu actuel du buffer à la chaîne de retour
         if (!str_append_str(&ret, b))
             return (NULL); // Erreur d'allocation
@@ -213,7 +213,7 @@ char *get_next_line(int fd)
         {
             if (ret)
                 free(ret);
-            return (NULL);
+            return (NULL);Hey, can you translate all the comment to french?
         }
 
         // Gestion de la fin de fichier (EOF)
