@@ -1,112 +1,144 @@
-#include <stdio.h>   // For fprintf, perror
-#include <string.h>  // For strlen
-#include <unistd.h>  // For read, write, STDIN_FILENO, STDOUT_FILENO
-#include <stdlib.h>  // For malloc, free
+#include <stdio.h>   // Pour fprintf, perror
+#include <string.h>  // Pour strlen
+#include <unistd.h>  // Pour read, write, STDIN_FILENO, STDOUT_FILENO
+#include <stdlib.h>  // Pour malloc, free
 
-// Define the maximum buffer size. We add +1 for the null terminator,
-// ensuring we can store up to 10k bytes of actual content safely.
+// Définit la taille maximale du buffer. On ajoute +1 pour le caractère nul de fin,
+// garantissant qu'on peut stocker jusqu'à 10k octets de contenu réel en sécurité.
 #define MAX_INPUT_BUFFER_SIZE (10000 + 1)
 
-// Custom ft_strncmp function:
-// Compares the first 'n' characters of two strings.
-// Returns 1 if all 'n' characters match, 0 otherwise.
-// Note: This is a simplified strncmp that only checks for equality,
-// not lexicographical order, which is sufficient for this problem.
+// Fonction ft_strncmp personnalisée :
+// Compare les 'n' premiers caractères de deux chaînes.
+// Retourne 1 si tous les 'n' caractères correspondent, 0 sinon.
+// Note : C'est une strncmp simplifiée qui vérifie seulement l'égalité,
+// pas l'ordre lexicographique, ce qui est suffisant pour ce problème.
 int ft_strncmp(char *s1, char *s2, int n) {
     int i = 0;
-    // Loop as long as 'i' is within 'n' bounds and characters at s1[i] and s2[i] are identical.
+    // Boucle tant que 'i' est dans les limites de 'n' et que les caractères s1[i] et s2[i] sont identiques.
     while (i < n && s1[i] == s2[i]) {
         i++;
     }
-    // If 'i' reached 'n', it means all 'n' characters matched.
+    // Si 'i' a atteint 'n', cela signifie que tous les 'n' caractères correspondent.
     if (i == n) {
         return 1;
     } else {
-        return 0; // Mismatch found or 'n' characters not reached.
+        return 0; // Différence trouvée ou 'n' caractères pas atteints.
     }
 }
 
 int main(int ac, char **av) {
-    // --- 1. Argument Handling (IMPORTANT ERROR HANDLING) ---
-    // The program requires exactly one argument (argc == 2).
-    // The argument must not be NULL and its length must be greater than 0.
+    // --- 1. Gestion des arguments (GESTION D'ERREUR IMPORTANTE) ---
+    // Le programme nécessite exactement un argument (argc == 2).
+    // L'argument ne doit pas être NULL et sa longueur doit être supérieure à 0.
     if (ac != 2 || av[1] == NULL || strlen(av[1]) == 0) {
-        return 1; // Return 1 as specified for incorrect argument usage.
+        return 1; // Retourne 1 comme spécifié pour un usage incorrect des arguments.
     }
 
-    // --- 2. Memory Allocation ---
-    // Allocate a large buffer to store the entire input from stdin.
-    // MAX_INPUT_BUFFER_SIZE includes space for the null terminator.
+    // --- 2. Allocation mémoire ---
+    // Alloue un gros buffer pour stocker toute l'entrée depuis stdin.
+    // MAX_INPUT_BUFFER_SIZE inclut l'espace pour le caractère nul de fin.
     char *buff = (char *)malloc(MAX_INPUT_BUFFER_SIZE);
 
-    // --- Malloc Error Handling (IMPORTANT ERROR HANDLING) ---
-    // Check if malloc failed. If it returns NULL, memory allocation failed.
+    // --- Gestion d'erreur malloc (GESTION D'ERREUR IMPORTANTE) ---
+    // Vérifie si malloc a échoué. Si elle retourne NULL, l'allocation mémoire a échoué.
     if (buff == NULL) {
-        fprintf(stderr, "Error: "); // Print "Error: " to standard error.
-        perror("");                 // Print the system's error message (e.g., "Cannot allocate memory").
-        return 1;                   // Return 1 as specified for malloc errors.
+        fprintf(stderr, "Error: "); // Affiche "Error: " sur l'erreur standard.
+        perror("");                 // Affiche le message d'erreur du système (ex: "Cannot allocate memory").
+        return 1;                   // Retourne 1 comme spécifié pour les erreurs malloc.
     }
 
-    char *search_str = av[1];           // Pointer to the search string (e.g., "bonjour")
-    char current_char;                  // Temporary storage for a single character read from stdin
-    ssize_t bytes_read_result;          // Stores the return value of read() (number of bytes read, 0 for EOF, -1 for error)
-    int buff_idx = 0;                   // Index to track the current position in 'buff' while reading
-    int search_len = strlen(search_str); // Length of the search string
+    char *search_str = av[1];           // Pointeur vers la chaîne à rechercher (ex: "bonjour")
+    char current_char;                  // Stockage temporaire pour un seul caractère lu depuis stdin
+    ssize_t bytes_read_result;          // Stocke la valeur de retour de read() (nombre d'octets lus, 0 pour EOF, -1 pour erreur)
+    int buff_idx = 0;                   // Index pour suivre la position actuelle dans 'buff' pendant la lecture
+    int search_len = strlen(search_str); // Longueur de la chaîne à rechercher
 
-    // --- 3. First Loop: Read all input from stdin into 'buff' ---
-    // Reads one character at a time until EOF (bytes_read_result == 0),
-    // an error occurs (bytes_read_result == -1), or the buffer is full.
+    // --- 3. Première boucle : Lire toute l'entrée depuis stdin dans 'buff' ---
+    // Lit un caractère à la fois jusqu'à EOF (bytes_read_result == 0),
+    // qu'une erreur survienne (bytes_read_result == -1), ou que le buffer soit plein.
     while ((bytes_read_result = read(STDIN_FILENO, &current_char, 1)) > 0) {
-        // Prevent buffer overflow: Stop reading if we're about to exceed the allocated space.
-        // MAX_INPUT_BUFFER_SIZE - 1 ensures we always have space for the null terminator.
+        // Empêche le débordement de buffer : Arrête la lecture si on va dépasser l'espace alloué.
+        // MAX_INPUT_BUFFER_SIZE - 1 garantit qu'on a toujours de la place pour le caractère nul de fin.
         if (buff_idx >= MAX_INPUT_BUFFER_SIZE - 1) {
-            break; // Buffer is full, stop reading further input.
+            break; // Buffer plein, arrête de lire plus d'entrée.
         }
-        buff[buff_idx++] = current_char; // Store the character in 'buff' and increment index.
+        buff[buff_idx++] = current_char; // Stocke le caractère dans 'buff' et incrémente l'index.
     }
 
-    // --- Read Error Handling (IMPORTANT) ---
-    // After the reading loop, check if the last read operation resulted in an error.
+    // --- Gestion d'erreur de lecture (IMPORTANT) ---
+    // Après la boucle de lecture, vérifie si la dernière opération de lecture a résulté en erreur.
     if (bytes_read_result == -1) {
-        fprintf(stderr, "Error: "); // Print "Error: " to standard error.
-        perror("");                 // Print the system's error message.
-        free(buff);                 // Free the allocated memory before exiting.
-        return 1;                   // Return 1 as specified for read errors.
+        fprintf(stderr, "error"); // Affiche "Error: " sur l'erreur standard.
+        perror("");                 // Affiche le message d'erreur du système.
+        free(buff);                 // Libère la mémoire allouée avant de quitter.
+        return 1;                   // Retourne 1 comme spécifié pour les erreurs de lecture.
     }
 
-    // --- Null-terminate the buffer ---
-    // This is crucial for string functions like ft_strncmp that rely on string boundaries.
-    // 'buff_idx' now holds the total number of characters successfully read.
+    // --- Termine le buffer avec un caractère nul ---
+    // Ceci est crucial pour les fonctions de chaînes comme ft_strncmp qui s'appuient sur les délimiteurs de chaînes.
+    // 'buff_idx' contient maintenant le nombre total de caractères lus avec succès.
     buff[buff_idx] = '\0';
 
-    // --- 4. Second Loop: Process 'buff' and write to stdout ---
-    int process_idx = 0; // Index for iterating through 'buff' for processing and output.
-    while (buff[process_idx] != '\0') { // Loop until the null terminator is reached (end of valid input).
-        // Check for a match of 'search_str' starting at 'buff[process_idx]':
-        // 1. Ensure there are enough characters remaining in the *valid part* of 'buff'
-        //    for a full 'search_str' match. (process_idx + search_len <= buff_idx)
-        // 2. Call ft_strncmp to compare the substring with 'search_str'.
+    // --- 4. Seconde boucle : Traite 'buff' et écrit vers stdout ---
+    int process_idx = 0; // Index pour itérer à travers 'buff' pour le traitement et la sortie.
+    while (buff[process_idx] != '\0') { // Boucle jusqu'à atteindre le caractère nul (fin de l'entrée valide).
+        // Vérifie une correspondance de 'search_str' commençant à 'buff[process_idx]' :
+        // 1. S'assure qu'il reste assez de caractères dans la partie *valide* de 'buff'
+        //    pour une correspondance complète de 'search_str'. (process_idx + search_len <= buff_idx)
+        // 2. Appelle ft_strncmp pour comparer la sous-chaîne avec 'search_str'.
         if (process_idx + search_len <= buff_idx &&
             ft_strncmp(&buff[process_idx], search_str, search_len) == 1)
         {
-            // If a match is found:
-            // Write 'search_len' number of asterisks to standard output.
+            // Si une correspondance est trouvée :
+            // Écrit 'search_len' astérisques vers la sortie standard.
             for (int y = 0; y < search_len; y++) {
-                write(STDOUT_FILENO, "*", 1); // write one '*' at a time.
+                write(STDOUT_FILENO, "*", 1); // écrit un '*' à la fois.
             }
-            // Advance the processing index past the matched string.
+            // Avance l'index de traitement au-delà de la chaîne correspondante.
             process_idx += search_len;
         } else {
-            // If no match at the current position:
-            // Write the current character from 'buff' to standard output.
-            write(STDOUT_FILENO, &buff[process_idx], 1); // write the character itself.
-            // Advance the processing index by one character.
+            // Si aucune correspondance à la position actuelle :
+            // Écrit le caractère actuel de 'buff' vers la sortie standard.
+            write(STDOUT_FILENO, &buff[process_idx], 1); // écrit le caractère lui-même.
+            // Avance l'index de traitement d'un caractère.
             process_idx++;
         }
     }
 
-    // --- 5. Memory Cleanup ---
-    free(buff); // Free the dynamically allocated memory before exiting.
+    // --- 5. Nettoyage mémoire ---
+    free(buff); // Libère la mémoire allouée dynamiquement avant de quitter.
 
-    return 0; // Program executed successfully.
+    return 0; // Programme exécuté avec succès.
 }
+
+/*
+EXPLICATION DU PROGRAMME :
+
+Ce programme implémente un filtre de texte qui :
+
+1. PREND UN ARGUMENT : Une chaîne de caractères à rechercher dans le texte d'entrée
+
+2. LIT L'ENTRÉE : Lit tout le texte depuis l'entrée standard (stdin) caractère par caractère
+
+3. FILTRE LE TEXTE : Parcourt le texte lu et remplace chaque occurrence de la chaîne
+   recherchée par des astérisques (autant d'astérisques que de caractères dans la chaîne)
+
+4. ÉCRIT LA SORTIE : Affiche le texte modifié sur la sortie standard (stdout)
+
+EXEMPLE D'UTILISATION :
+./programme "hello"
+Entrée : "Say hello to the world, hello again!"
+Sortie : "Say ***** to the world, ***** again!"
+
+GESTION D'ERREURS :
+- Vérifie les arguments d'entrée
+- Gère les erreurs d'allocation mémoire
+- Gère les erreurs de lecture
+- Évite les débordements de buffer
+
+FONCTIONS UTILISÉES :
+- malloc/free : Gestion mémoire dynamique
+- read/write : E/S bas niveau
+- strlen : Calcul de longueur de chaîne
+- fprintf/perror : Gestion d'erreurs
+*/
