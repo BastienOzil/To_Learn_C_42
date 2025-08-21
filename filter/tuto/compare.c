@@ -1,12 +1,22 @@
 // Implémentez une fonction qui compare n caractères de deux chaînes
 
-int ft_strncmp(char *s1, char *s2, int n) {
+int ft_strncmp(char *s1, char *s2, int n)
+{
     // VOTRE CODE ICI
+    int i = 0;
+    while (s1[i] == s2[i] && i < n)
+        i ++;
+    if (i == n)
+        return (1);
+    else return (0);
     // Comparez caractère par caractère
     // Retournez 1 si identique, 0 sinon
 }
 
-int main() {
+#include <stdio.h>
+
+int main()
+{
     // Tests de votre fonction
     printf("%d\n", ft_strncmp("hello", "hello", 5)); // doit afficher 1
     printf("%d\n", ft_strncmp("hello", "world", 5)); // doit afficher 0
