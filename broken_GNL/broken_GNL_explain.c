@@ -1,4 +1,4 @@
-#include "get_next_line.h"
+#include "get_next_line_explain.h"
 
 /*
  * ft_strchr - Recherche la première occurrence d'un caractère dans une chaîne
@@ -169,7 +169,7 @@ void *ft_memmove(void *dest, const void *src, size_t n) // Retourner void*
         // Copie normale du début vers la fin (pas de risque de chevauchement)
         i = 0;
         while (i < n)
-        {Hey, can you translate all the comment to french?
+        {
             ((char *)dest)[i] = ((char *)src)[i];
             i++;
         }
@@ -200,7 +200,7 @@ char *get_next_line(int fd)
 
     // BOUCLE PRINCIPALE: tant qu'on n'a pas trouvé de '\n'
     while (!tmp)
-    {Hey, can you translate all the comment to french?
+    {
         // Ajoute le contenu actuel du buffer à la chaîne de retour
         if (!str_append_str(&ret, b))
             return (NULL); // Erreur d'allocation
@@ -213,9 +213,8 @@ char *get_next_line(int fd)
         {
             if (ret)
                 free(ret);
-            return (NULL);Hey, can you translate all the comment to french?
+            return (NULL);
         }
-
         // Gestion de la fin de fichier (EOF)
         if (read_ret == 0) // dans le cas EOF
         {
