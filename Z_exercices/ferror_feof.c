@@ -11,5 +11,6 @@ int main() {
     // 4. Utilisez ferror() pour détecter les erreurs
     // 5. Affichez un message approprié selon le cas
     
+    
     return 0;
 }

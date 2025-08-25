@@ -10,7 +10,7 @@ int main()
     ssize_t result;
 
     // VOTRE CODE ICI
-
+    
     while (1)
     {
         result = read(STDIN_FILENO, &c, 1);
