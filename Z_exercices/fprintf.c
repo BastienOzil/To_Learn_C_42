@@ -7,6 +7,8 @@ int main() {
     // 1. Utilisez fprintf(stdout, ...) pour afficher une info normale
     // 2. Utilisez fprintf(stderr, ...) pour afficher un avertissement
     // 3. Testez la redirection : ./prog > fichier.txt
-    
-    return 0;
+    fprintf(stdout, "Info: La valeur est %d\n", valeur);
+    fprintf(stderr, "Avertissement: La valeur est élevée (%d)\n", valeur);
+
+    return (0);
 }
