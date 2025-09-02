@@ -5,11 +5,11 @@ Fonctions autorisées : fgetc, ungetc, ferror, feof, isspace, isdigit, stdin, v
 
 Écrivez une fonction nommée « ft_scanf » qui reproduira le scanf réel avec les contraintes suivantes :
 
-- Elle ne gérera que les conversions suivantes : s, d et c
+- Elle ne gérera que les convert suivantes : s, d et c
 - Vous n'avez pas à gérer les options *, m et '
 - Vous n'avez pas à gérer la largeur maximale du champ
 - Vous n'avez pas à gérer les caractères de modification de type (h, hh, l, etc.)
-- Vous n'avez pas à gérer les conversions commençant par %n$
+- Vous n'avez pas à gérer les convert commençant par %n$
 
 Votre fonction doit être déclarée comme suit :
 
