@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-int	main(void)
+int main(void)
 {
 	// stdin = entrée standard (clavier) = descripteur 0 = STDIN_FILENO
 	// stdout = sortie standard (écran) = descripteur 1 = STDOUT_FILENO

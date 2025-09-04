@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int	main(void)
+int main(void)
 {
 	FILE *fichier;
 	int c;
