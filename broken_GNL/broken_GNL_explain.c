@@ -1,172 +1,90 @@
 #include "get_next_line_explain.h"
 
-/*
- * ft_strchr - Recherche la première occurrence d'un caractère dans une chaîne
- *
- * Paramètres:
- * - s: la chaîne dans laquelle chercher
- * - c: le caractère à rechercher
- *
- * Retourne: un pointeur vers la première occurrence du caractère, ou NULL si non trouvé
- */
 char *ft_strchr(const char *s, int c)
 {
     int i;
 
     i = 0;
-    // Parcourt la chaîne tant qu'on n'atteint pas la fin ET qu'on n'a pas trouvé le caractère
-    while (s[i] && s[i] != c) // Fix bug #1: vérifier s[i] avant de comparer
-        i++;                  // sinon cela crée une boucle infinie
-
-    // Si on a trouvé le caractère (même si c'est '\0')
+    while (s[i] && s[i] != c)
+        i++;
     if (s[i] == c)
     {
-        return ((char *)(s + i)); // Retourne un pointeur vers cette position
+        return ((char *)(s + i));
     }
     else
-        return (NULL); // Caractère non trouvé
+        return (NULL);
 }
 
-/*
- * ft_memcpy - Copie n bytes de src vers dest
- *
- * Paramètres:
- * - dest: destination de la copie
- * - src: source de la copie
- * - n: nombre de bytes à copier
- *
- * Retourne: pointeur vers dest
- *
- * ATTENTION: Ne gère PAS les chevauchements mémoire (utiliser ft_memmove pour ça)
- */
-void *ft_memcpy(void *dest, const void *src, size_t n) // Fix bug #2: retourner void*
-// pour qu'une fonction void puisse return, elle doit etre pointé avec *
+void *ft_memcpy(void *dest, const void *src, size_t n)
 {
-    size_t i = 0; // Fix bug #3: copier du début vers la fin
-                  // il faut commencé la chaine à 0
+    int i = 0;
 
-    // Copie byte par byte de src vers dest
     while (i < n)
     {
-        ((char *)dest)[i] = ((char *)src)[i]; // Cast en char* pour manipulation byte par byte
+        ((char *)dest)[i] = ((char *)src)[i];
         i++;
     }
-    return dest; // Retourne le pointeur de destination (convention standard)
+    return dest;
 }
 
-/*
- * ft_strlen - Calcule la longueur d'une chaîne de caractères
- *
- * Paramètres:
- * - s: la chaîne dont on veut calculer la longueur
- *
- * Retourne: le nombre de caractères avant le '\0' terminal
- */
 size_t ft_strlen(char *s)
 {
     size_t ret;
 
     ret = 0;
-    // Parcourt la chaîne jusqu'au caractère nul '\0'
     while (*s)
     {
-        ret++; // Incrémente le compteur
-        s++;   // Avance au caractère suivant
+        ret++;
+        s++;
     }
     return (ret);
 }
 
-/*
- * str_append_mem - Concatène size2 caractères de s2 à la fin de s1
- *
- * Paramètres:
- * - s1: double pointeur vers la chaîne destination (sera modifiée)
- * - s2: chaîne source à ajouter
- * - size2: nombre de caractères de s2 à ajouter
- *
- * Retourne: 1 en cas de succès, 0 en cas d'erreur
- *
- * IMPORTANT: Cette fonction modifie s1 et libère l'ancienne mémoire
- */
-int str_append_mem(char **s1, const char *s2, size_t size2) // Fix bug #4: double pointeur pour char *s1
+int str_append_mem(char **s1, const char *s2, size_t size2)
 {
-    // Vérifications de sécurité
     if (!s1 || !*s1)
         return 0;
 
-    size_t size1 = ft_strlen(*s1); // Calcule la taille actuelle de s1
-    if (size1 == 0)                // Gérer le cas NULL, chaine a 0
+    size_t size1 = ft_strlen(*s1);
+    if (size1 == 0)
         return 0;
-
-    // Alloue une nouvelle zone mémoire assez grande pour contenir s1 + s2 + '\0'
     char *tmp = malloc(size1 + size2 + 1);
     if (!tmp)
-        return (0); // Échec de l'allocation
-
-    // Copie l'ancienne chaîne s1 dans la nouvelle zone
+        return (0);
     if (*s1)
     {
         ft_memcpy(tmp, *s1, size1);
-        free(*s1); // Libère l'ancienne mémoire
+        free(*s1);
     }
-
-    // Ajoute les size2 caractères de s2 après s1
     ft_memcpy(tmp + size1, s2, size2);
-    tmp[size1 + size2] = 0; // Ajoute le caractère nul terminal
+    tmp[size1 + size2] = 0;
 
-    *s1 = tmp;  // Maintenant on peut modifier le pointeur original qu'as la fin
-    return (1); // Succès
+    *s1 = tmp;
+    return (1);
 }
 
-/*
- * str_append_str - Concatène entièrement s2 à la fin de s1
- *
- * Paramètres:
- * - s1: double pointeur vers la chaîne destination
- * - s2: chaîne source à ajouter entièrement
- *
- * Retourne: 1 en cas de succès, 0 en cas d'erreur
- *
- * Wrapper simple autour de str_append_mem
- */
 int str_append_str(char **s1, char *s2)
 {
-    return (str_append_mem(s1, s2, ft_strlen(s2))); // Fix bug #5: passer s1 directement, pas besoin de tmp
+    return (str_append_mem(s1, s2, ft_strlen(s2)));
 }
 
-/*
- * ft_memmove - Copie n bytes de src vers dest en gérant les chevauchements
- *
- * Paramètres:
- * - dest: destination de la copie
- * - src: source de la copie
- * - n: nombre de bytes à copier
- *
- * Retourne: pointeur vers dest
- *
- * Différence avec ft_memcpy: gère les chevauchements mémoire en adaptant le sens de copie
- */
-void *ft_memmove(void *dest, const void *src, size_t n) // Retourner void*
-// pour qu'une fonction void puisse return, elle doit etre pointé avec *, de même pour une variable void
+void *ft_memmove(void *dest, const void *src, size_t n)
 {
-    size_t i;
+    int i;
 
-    // Si dest est après src dans la mémoire, risque de chevauchement
     if (dest > src)
     {
-        // Copie de la fin vers le début pour éviter l'écrasement
-        i = n;        // Fix bug #6: utiliser n au lieu de ft_strlen, fr_strlen ne sert a rien si on connait deja la longueur
-        while (i > 0) // Éviter la boucle infinie avec unsigned
+        i = n;
+        while (i > 0)
         {
             i--;
-            ((char *)dest)[i] = ((char *)src)[i]; // Copie du dernier vers le premier
+            ((char *)dest)[i] = ((char *)src)[i];
         }
     }
     else if (dest == src)
-        return (dest); // Pas de copie nécessaire si même adresse
+        return (dest);
     else
     {
-        // Copie normale du début vers la fin (pas de risque de chevauchement)
         i = 0;
         while (i < n)
         {
@@ -177,63 +95,41 @@ void *ft_memmove(void *dest, const void *src, size_t n) // Retourner void*
     return (dest);
 }
 
-/*
- * get_next_line - Lit et retourne la prochaine ligne d'un fichier
- *
- * Paramètres:
- * - fd: descripteur de fichier à lire
- *
- * Retourne: la prochaine ligne (avec '\n' inclus), ou NULL si fin de fichier ou erreur
- *
- * PRINCIPE: Utilise un buffer statique pour conserver les données entre les appels.
- * À chaque appel, construit progressivement la ligne jusqu'à trouver un '\n'.
- */
 char *get_next_line(int fd)
 {
-    static char b[BUFFER_SIZE + 1] = ""; // Buffer statique conservé entre les appels
-    char *ret = NULL;                    // Chaîne de retour à construire
-    char *tmp = ft_strchr(b, '\n');      // Cherche s'il y a déjà un '\n' dans le buffer
+    static char b[BUFFER_SIZE + 1] = "";
+    char *ret = NULL;
+    char *tmp = ft_strchr(b, '\n');
 
-    // Vérifications de sécurité
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
 
-    // BOUCLE PRINCIPALE: tant qu'on n'a pas trouvé de '\n'
     while (!tmp)
     {
-        // Ajoute le contenu actuel du buffer à la chaîne de retour
         if (!str_append_str(&ret, b))
-            return (NULL); // Erreur d'allocation
+            return (NULL);
 
-        // Lit de nouvelles données du fichier
         int read_ret = read(fd, b, BUFFER_SIZE);
 
-        // Gestion des erreurs de lecture
         if (read_ret == -1)
         {
             if (ret)
                 free(ret);
             return (NULL);
         }
-        // Gestion de la fin de fichier (EOF)
-        if (read_ret == 0) // dans le cas EOF
+        if (read_ret == 0)
         {
-            // Si on a déjà lu des données, les retourner
             if (ret && ft_strlen(ret) > 0)
                 return (ret);
-            // Sinon, libérer et retourner NULL
             if (ret)
                 free(ret);
             return (NULL);
         }
 
-        b[read_ret] = '\0';       // Terminer le buffer par '\0'
-        tmp = ft_strchr(b, '\n'); // Chercher '\n' dans le nouveau buffer
+        b[read_ret] = '\0';
+        tmp = ft_strchr(b, '\n');
     }
 
-    // ARRIVÉE ICI = on a trouvé un '\n' dans le buffer
-
-    // Ajouter à ret tous les caractères jusqu'au '\n' inclus
     if (!str_append_mem(&ret, b, tmp - b + 1))
     {
         if (ret)
@@ -241,11 +137,9 @@ char *get_next_line(int fd)
         return (NULL);
     }
 
-    // Sauvegarder le reste du buffer (après '\n') pour le prochain appel
-    // tmp + 1 pointe sur le caractère après '\n'
     ft_memmove(b, tmp + 1, ft_strlen(tmp + 1) + 1);
 
-    return (ret); // Retourner la ligne complète avec '\n'
+    return (ret);
 }
 
 // ========================================
