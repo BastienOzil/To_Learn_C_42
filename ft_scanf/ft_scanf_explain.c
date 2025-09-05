@@ -8,6 +8,7 @@ static int read_int(va_list *args)
 
 	while ((c = fgetc(stdin)) != EOF && isspace(c))
 		;
+
 	if (c == EOF)
 		return 0;
 
@@ -71,7 +72,8 @@ static int read_char(va_list *args)
 static int handle_whitespace(void)
 {
 	int c;
-	while ((c = fgetc(stdin)) != EOF && isspace(c));
+	while ((c = fgetc(stdin)) != EOF && isspace(c))
+		;
 	if (c != EOF)
 		ungetc(c, stdin);
 	return 1;
