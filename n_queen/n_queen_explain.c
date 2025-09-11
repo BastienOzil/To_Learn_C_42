@@ -69,7 +69,7 @@ int main(int ac, char **av)
 	int n = atoi(av[1]);
 	if (n <= 3)
 	{
-		write(1, "\n", 1);
+		write(1, "0\n", 2);
 		return 0;
 	}
 	board_size = n;
