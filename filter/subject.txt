@@ -20,7 +20,7 @@ sed 's/hello/*****/g'
 doit avoir le meme comportement que:
 sed 's/abc/***/g'
 
-En cas d'erreur pendant un read ou un malloc, voys devez ecrir 'error' suivi du message de sortie standart (stderr) et retourner 1.
+En cas d'erreur pendant un read ou un malloc, vous devez ecrir "Error: " suivi du message de sortie standart (stderr) ou perror et retourner 1.
 
 Si le programme est apelle sans arguments, avec un argument vide ou plusieures arguments, doit retourner 1.
 
