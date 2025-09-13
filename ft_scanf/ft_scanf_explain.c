@@ -91,61 +91,61 @@ static int handle_literal(char expected)
 	return 1;
 }
 
-int ft_scanf(const char *format, ...)
+int ft_scanf(const char *str, ...)
 {
 	va_list args;
-	int conversions = 0;
+	int count = 0;
 
-	va_start(args, format);
+	va_start(args, str);
 
-	while (*format)
+	while (*str)
 	{
-		if (*format == '%')
+		if (*str == '%')
 		{
-			format++;
-			if (*format == 'd')
+			str++;
+			if (*str == 'd')
 			{
 				if (!read_int(&args))
 				{
 					va_end(args);
-					return conversions;
+					return count;
 				}
-				conversions++;
+				count++;
 			}
-			if (*format == 's')
+			if (*str == 's')
 			{
 				if (!read_string(&args))
 				{
 					va_end(args);
-					return conversions;
+					return count;
 				}
-				conversions++;
+				count++;
 			}
-			if (*format == 'c')
+			if (*str == 'c')
 			{
 				if (!read_char(&args))
 				{
 					va_end(args);
-					return conversions;
+					return count;
 				}
-				conversions++;
+				count++;
 			}
 		}
-		if (*format != '%' && isspace(*format))
+		if (*str != '%' && isspace(*str))
 		{
 			handle_whitespace();
 		}
-		if (*format != '%' && !isspace(*format))
+		if (*str != '%' && !isspace(*str))
 		{
-			if (!handle_literal(*format))
+			if (!handle_literal(*str))
 			{
 				va_end(args);
-				return conversions;
+				return count;
 			}
 		}
-		format++;
+		str++;
 	}
 
 	va_end(args);
-	return conversions;
+	return count;
 }

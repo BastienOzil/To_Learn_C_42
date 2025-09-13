@@ -11,7 +11,7 @@ pour un paramètre n donné en argument.
 Nous ne testerons pas avec des valeurs négatives.
 L'ordre des solutions n'a pas d'importance.
 
-Vous afficherez les solutions sous le format suivant :
+Vous afficherez les solutions sous le str suivant :
 <p1> <p2> <p3> ... \n
 où pn est l'indice de ligne de la reine dans chaque colonne, à partir de 0.
 
@@ -29,7 +29,7 @@ etc...
 
 REMARQUE : Qu'est-ce que le problème des N-Reines ?
 
-Le problème des N-Reines est un casse-tête algorithmique classique en informatique et en mathématiques discrètes.
+Le problème des N-Reines est un casse-tête algorithmique classique en instrique et en mathématiques discrètes.
 
 Il pose la question suivante : comment placer N reines sur un échiquier N×N de manière à ce qu'aucune reine ne se menace ?
 
