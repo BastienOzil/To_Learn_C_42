@@ -9,10 +9,12 @@ int main(int ac, char **av)
         return 1;
 
     int s_len = strlen(av[1]);
+
     if (s_len == 0)
         return 1;
 
     char *buffer = malloc(1024 * 1024);
+
     if (!buffer)
     {
         fprintf(stderr, "Error: ");
@@ -39,7 +41,8 @@ int main(int ac, char **av)
     }
 
     int i = 0;
-    int j, y;
+    int j;
+    int y;
     
     while (i < total_len)
     {
