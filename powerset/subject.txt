@@ -2,8 +2,15 @@ powerset | .c.h
 Allowed functions :
 atoi, printf, fprintf, malloc, calloc, realloc, free, stdout, write
 
-écrivez un programme qui prend un entier n suivi d'un ensemble s d'entiers distincts en arguments. Votre programme doit afficher tous les sous ensembles de s dont la somme est égale à n.
-L'ordre des lignes n'a pas d'importance mais l'ordre des éléments dans un sous ensemble doit respecter l'ordre dans l'ensemble initial s.
+écrivez un programme qui prend un entier 'n' suivi d'un ensemble 's' 
+d'entiers distincts en arguments.
+ 
+Votre programme doit afficher tous les sous ensembles de 's' dont 
+la somme est égale à 'n'.
+
+L'ordre des lignes n'a pas d'importance mais l'ordre des éléments 
+dans un sous ensemble doit respecter l'ordre dans l'ensemble initial 's'.
+
 Ainsi il ne doit pas y avoir de doublons comme "1 0" et "0 1" 
 Exemples :
 ./powerset 5 1 2 3 4 5
