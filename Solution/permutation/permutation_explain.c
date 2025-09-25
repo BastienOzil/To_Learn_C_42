@@ -28,24 +28,24 @@ void ft_strcpy(char *dest, char *s)
 	dest[i] = '\0';
 }
 
-void generate_all_perms(int current_index, int size, char *s, char **all_perms, int *perms_row_index)
+void recursive(int current, int size, char *s, char **all, int *perms)
 {
-	if (current_index == size)
+	if (current == size)
 	{
-		ft_strcpy(all_perms[(*perms_row_index)], s);
-		(*perms_row_index)++;
+		ft_strcpy(all[(*perms)], s);
+		(*perms)++;
 		return;
 	}
-	int i = current_index;
+	int i = current;
 	while (i < size)
 	{
 		char temp = s[i];
-		s[i] = s[current_index];
-		s[current_index] = temp;
-		generate_all_perms(current_index + 1, size, s, all_perms, perms_row_index);
+		s[i] = s[current];
+		s[current] = temp;
+		recursive(current + 1, size, s, all, perms);
 		temp = s[i];
-		s[i] = s[current_index];
-		s[current_index] = temp;
+		s[i] = s[current];
+		s[current] = temp;
 		i++;
 	}
 }
@@ -62,20 +62,20 @@ int ft_strcmp(char *s1, char *s2)
 	return 0;
 }
 
-void sort_perms(char **all_perms, int total_perms)
+void sort_perms(char **all, int total)
 {
 	int i = 0;
 	int y;
-	while (i < total_perms)
+	while (i < total)
 	{
 		y = i + 1;
-		while (y < total_perms)
+		while (y < total)
 		{
-			if (ft_strcmp(all_perms[i], all_perms[y]) > 0)
+			if (ft_strcmp(all[i], all[y]) > 0)
 			{
-				char *tmp = all_perms[i];
-				all_perms[i] = all_perms[y];
-				all_perms[y] = tmp;
+				char *tmp = all[i];
+				all[i] = all[y];
+				all[y] = tmp;
 			}
 			y++;
 		}
@@ -83,12 +83,12 @@ void sort_perms(char **all_perms, int total_perms)
 	}
 }
 
-void print_perms(char **all_perms, int total_perms)
+void put_all(char **all, int total)
 {
 	int i = 0;
-	while (i < total_perms)
+	while (i < total)
 	{
-		puts(all_perms[i]);
+		puts(all[i]);
 		i++;
 	}
 }
@@ -107,20 +107,20 @@ int main(int ac, char **av)
 		write(1, "\n", 1);
 		return 0;
 	}
-	int total_perms = ft_factorial(size);
-	char **all_perms = malloc(sizeof(char *) * total_perms);
+	int total = ft_factorial(size);
+	char **all = malloc(sizeof(char *) * total);
 	int i = 0;
 
-	while (i < total_perms)
+	while (i < total)
 	{
-		all_perms[i] = calloc(size + 1, sizeof(char));
+		all[i] = calloc(size + 1, sizeof(char));
 		i++;
 	}
 
-	int perms_row_index = 0;
-	int current_index = 0;
-	generate_all_perms(current_index, size, s, all_perms, &perms_row_index);
-	sort_perms(all_perms, total_perms);
-	print_perms(all_perms, total_perms);
+	int perms = 0;
+	int current = 0;
+	recursive(current, size, s, all, &perms);
+	sort_perms(all, total);
+	put_all(all, total);
 	return 0;
 }

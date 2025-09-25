@@ -13,11 +13,10 @@ int	ft_strlen(char *s)
 
 int	min_to_remove(char *s)
 {
-	int	open = 0, close;
-
-	open = 0, close = 0;
-
+	int	open = 0;
+	int close = 0;
 	int i = 0;
+	
 	while(s[i])
 	{
 		if (s[i] == '(')
@@ -34,28 +33,28 @@ int	min_to_remove(char *s)
 	return (open + close);
 }
 
-void	solve(int current_index, int total_to_remove, int num_removed, char *s)
+void	recursive(int str, int total, int done, char *s)
 {
-	char	temp;
+	char	tmp;
 
-	if (current_index == ft_strlen(s))
+	if (str == ft_strlen(s))
 	{
-		if (num_removed == total_to_remove && !min_to_remove(s))
+		if (done == total && !min_to_remove(s))
 			puts(s);
 		return ;
 	}
-	if (num_removed > total_to_remove)
+	if (done > total)
 		return ;
-	if (s[current_index] == '(' || s[current_index] == ')')
+	if (s[str] == '(' || s[str] == ')')
 	{
-		temp = s[current_index];
-		s[current_index] = ' ';
-		solve(current_index + 1, total_to_remove, num_removed + 1, s);
-		s[current_index] = temp;
-		solve(current_index + 1, total_to_remove, num_removed, s);
+		tmp = s[str];
+		s[str] = ' ';
+		recursive(str + 1, total, done + 1, s);
+		s[str] = tmp;
+		recursive(str + 1, total, done, s);
 	}
 	else
-		solve(current_index + 1, total_to_remove, num_removed, s);
+		recursive(str + 1, total, done, s);
 }
 
 int	main(int argc, char **argv)
@@ -73,6 +72,6 @@ int	main(int argc, char **argv)
 		puts(s);
 		return (0);
 	}
-	solve(0, min_to_remove(s), 0, s);
+	recursive(0, min_to_remove(s), 0, s);
 	return (0);
 }

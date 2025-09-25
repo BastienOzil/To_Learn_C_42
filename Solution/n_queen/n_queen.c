@@ -2,14 +2,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void print_solution(int *board, int size)
+void print_res(int *board, int n)
 {
 	int i = 0;
 
-	while (i < size)
+	while (i < n)
 	{
 		fprintf(stdout, "%d", board[i]);
-		if (i < size - 1)
+		if (i < n - 1)
 			fprintf(stdout, " ");
 		i++;
 	}
@@ -23,38 +23,38 @@ int is_valid(int n)
 	return n;
 }
 
-int is_safe(int *board, int size, int row, int col)
+int is_safe(int *board, int n, int x, int y)
 {
 	int i = 0;
 
-	while (i < col)
+	while (i < y)
 	{
-		if (board[i] == row)
+		if (board[i] == x)
 			return 0;
-		if (is_valid(board[i] - row) == is_valid(i - col))
+		if (is_valid(board[i] - x) == is_valid(i - y))
 			return 0;
 		i++;
 	}
 	return 1;
 }
 
-void solve(int *board, int size, int col)
+void recursive(int *board, int n, int y)
 {
-	int row = 0;
+	int x = 0;
 
-	if (col == size)
+	if (y == n)
 	{
-		print_solution(board, size);
+		print_res(board, n);
 		return;
 	}
-	while (row < size)
+	while (x < n)
 	{
-		if (is_safe(board, size, row, col))
+		if (is_safe(board, n, x, y))
 		{
-			board[col] = row;
-			solve(board, size, col + 1);
+			board[y] = x;
+			recursive(board, n, y + 1);
 		}
-		row++;
+		x++;
 	}
 }
 
@@ -77,7 +77,7 @@ int main(int ac, char **av)
 	board = malloc(sizeof(int) * n);
 	if (!board)
 		return 1;
-	solve(board, n, 0);
+	recursive(board, n, 0);
 	free(board);
 	return 0;
 }

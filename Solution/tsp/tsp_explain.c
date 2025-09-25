@@ -77,8 +77,8 @@ float tsp(float (*array)[2], ssize_t size)
         mutable_array[i] = i;
         i++;
     }
-    int mutable_index_start = 1;
-    generate_perms(array, mutable_array, size, mutable_index_start, &best_distance);
+    int starter = 1;
+    generate_perms(array, mutable_array, size, starter, &best_distance);
     free(mutable_array);
 
     // ... VOTRE CODE SE TERMINE

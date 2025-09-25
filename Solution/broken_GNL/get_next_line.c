@@ -164,7 +164,7 @@ int main()
 
     if (fd == -1)
     {
-        printf("Erreur: impossible d'ouvrir le fichier de test\n");
+        printf("Error");
         return (1);
     }
 
@@ -176,7 +176,7 @@ int main()
         free(line);
     }
 
-    write(1, "\n", 1);
+    printf("\n");
     close(fd);
     return (0);
 }

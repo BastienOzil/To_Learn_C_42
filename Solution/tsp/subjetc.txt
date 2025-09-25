@@ -3,22 +3,23 @@ Expected files			: *.c *.h
 Allowed functions   : write, sqrtf, getline, fseek, fscanf, ferror, feof, fabsf, memcpy, fprintf, fclose, malloc, calloc, realloc, free, fopen, errno, stderr, stdin, stdout
 -------------------------------------------------------
 
-The first publication referring to this problem as the "traveling salesman 
-problem" is found in the 1949 RAND Corporation report by Julia Robinson, 
+La première publication faisant référence à ce problème sous le nom
+de "problème du voyageur de commerce" se trouve dans un rapport de 
+la RAND Corporation datant de 1949, écrit par Julia Robinson, intitulé 
 "On the Hamiltonian game (a traveling salesman problem)."
 
-Here is how she defines the problem:
+Voici comment elle définit le problème :
 
-"The purpose of this note is to give a method for solving a problem related
-to the traveling salesman problem. It seems worthwhile to give a description
-of the original problem. One formulation is to find the shortest route for a
-salesman starting from Washington, visiting all the state capitals and then
-returning to Washington.
+« Le but de cette note est de proposer une méthode pour résoudre un problème 
+lié au problème du voyageur de commerce.
+Il semble utile de donner une description du problème d’origine.
+Une formulation consiste à trouver la route la plus courte pour un voyageur 
+partant de Washington, visitant toutes les capitales d'État, puis revenant à Washington.
 
-More generally, to find the shortest CLOSED CURVE containing n given points 
-in the plane."
+Plus généralement, il s’agit de trouver la courbe FERMÉE la plus courte
+contenant n points donnés dans le plan. »
 
-for example with the following set of cities:
+Par exemple, avec l’ensemble de villes suivant :
 0, 0
 1, 0
 2, 0
@@ -27,30 +28,30 @@ for example with the following set of cities:
 2, 1
 1, 2
 2, 2
-which can be presented as follows:
+Peut etre représenté ainsi:
 + + +
 + + +
   + +
-the shortest path is:
+le chemin le plus court est:
  _____
 |__   |
    |__|
 
-so you should print the length of this path that is:
+Vous devez donc afficher la longueur de ce chemin, c’est-à-dire :
 8.00
 
-Write a program that will read a set of city coordinates in the form 
-'%f, %f\n' from the standard input and will print the length of the shortest
-possible path containing all these cities under the form '%.2f'.
+Écrivez un programme qui lira un ensemble de coordonnées de villes sous la forme :
+'%f, %f\n' depuis l’entrée standard (stdin), et affichera la longueur du chemin 
+le plus court passant par toutes ces villes, au format :'%.2f'.
 
-Your program will not be tested with more than 11 cities.
+Votre programme ne sera jamais testé avec plus de 11 villes.
 
-You will find in this directory a file tsp.c containing all the boring parts of
-this exercise and example files to help you test your program.
+Vous trouverez dans ce répertoire un fichier tsp.c contenant toute la partie 
+ennuyeuse de l’exercice, ainsi que des fichiers d'exemple pour vous aider à tester votre programme.
 
-hint: in order to use sqrtf, add -lm at the end of your compilation command.
+Astuce : pour utiliser sqrtf, ajoutez -lm à la fin de votre commande de compilation.
 
-For example this should work:
+Par exemple, cela doit fonctionner :
 $> cat square.txt
 1, 1
 0, 1
