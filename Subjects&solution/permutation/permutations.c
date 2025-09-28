@@ -16,21 +16,21 @@ void swap(char *a, char *b)
 	*b = t;
 }
 
-void permute(char *s, int l, int r)
+void recursive(char *s, int x, int y)
 {
-	if (l == r)
+	if (x == y)
 	{
 		write(1, s, len(s));
 		write(1, "\n", 1);
 		return;
 	}
 
-	int i = l;
-	while (i <= r)
+	int i = x;
+	while (i <= y)
 	{
-		swap(&s[l], &s[i]);
-		permute(s, l + 1, r);
-		swap(&s[l], &s[i]);
+		swap(&s[x], &s[i]);
+		recursive(s, x + 1, y);
+		swap(&s[x], &s[i]);
 		i++;
 	}
 }
@@ -78,7 +78,7 @@ int main(int ac, char **av)
 		i++;
 	}
 	sort_string(copy);
-	permute(copy, 0, size - 1);
+	recursive(copy, 0, size - 1);
 
 	free(copy);
 	return 0;
