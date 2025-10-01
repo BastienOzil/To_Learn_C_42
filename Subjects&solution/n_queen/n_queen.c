@@ -9,21 +9,21 @@ int abs(int n)
 	return n;
 }
 
-int safe(int *b, int r, int c)
+int safe(int *b, int x, int c)
 {
 	int i = 0;
-	while (i < r)
+	while (i < x)
 	{
-		if (b[i] == c || abs(b[i] - c) == abs(i - r))
+		if (b[i] == c || abs(b[i] - c) == abs(i - x))
 			return 0;
 		i++;
 	}
 	return 1;
 }
 
-void solve(int *b, int n, int r)
+void recursive(int *b, int n, int x)
 {
-	if (r == n)
+	if (x == n)
 	{
 		int i = 0;
 		while (i < n)
@@ -39,10 +39,10 @@ void solve(int *b, int n, int r)
 	int c = 0;
 	while (c < n)
 	{
-		if (safe(b, r, c))
+		if (safe(b, x, c))
 		{
-			b[r] = c;
-			solve(b, n, r + 1);
+			b[x] = c;
+			recursive(b, n, x + 1);
 		}
 		c++;
 	}
@@ -62,7 +62,7 @@ int main(int ac, char **av)
 		return 0;
 	}
 	int *b = malloc(n * sizeof(int));
-	solve(b, n, 0);
+	recursive(b, n, 0);
 	free(b);
 	return 0;
 }

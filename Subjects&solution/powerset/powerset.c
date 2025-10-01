@@ -18,21 +18,21 @@ void print_res(int *res, int len)
     printf("\n");
 }
 
-void recursive(int n, int count, int i, int num, int *s, int *res, int res_len)
+void recursive(int n, int count, int i, int total, int *s, int *res, int res_len)
 {
-    if (num == n && res_len > 0)
+    if (total == n && res_len > 0)
     {
         print_res(res, res_len);
         return;
     }
 
-    if (i >= count || num > n)
+    if (i >= count || total > n)
         return;
 
     res[res_len] = s[i];
-    recursive(n, count, i + 1, num + s[i], s, res, res_len + 1);
+    recursive(n, count, i + 1, total + s[i], s, res, res_len + 1);
 
-    recursive(n, count, i + 1, num, s, res, res_len);
+    recursive(n, count, i + 1, total, s, res, res_len);
 }
 
 int main(int ac, char **av)

@@ -43,30 +43,30 @@ void print_res(char *str)
     write(1, "\n", 1);
 }
 
-void recursive(char *str, int len, int to_remove, int i, int done)
+void recursive(char *str, int len, int min, int i, int done)
 {
     char tmp;
 
     if (i == len)
     {
-        if (done == to_remove && !count_parenthesis(str))
+        if (done == min && !count_parenthesis(str))
             print_res(str);
         return;
     }
 
-    if (done > to_remove)
+    if (done > min || i > len)
         return;
 
     if (str[i] == '(' || str[i] == ')')
     {
         tmp = str[i];
         str[i] = ' ';
-        recursive(str, len, to_remove, i + 1, done + 1);
+        recursive(str, len, min, i + 1, done + 1);
         str[i] = tmp;
-        recursive(str, len, to_remove, i + 1, done);
+        recursive(str, len, min, i + 1, done);
     }
     else
-        recursive(str, len, to_remove, i + 1, done);
+        recursive(str, len, min, i + 1, done);
 }
 
 int main(int ac, char **av)
@@ -79,14 +79,14 @@ int main(int ac, char **av)
         return 0;
 
     char *str = av[1];
-    int to_remove = count_parenthesis(str);
+    int min = count_parenthesis(str);
     int i = 0;
     if (!count_parenthesis(str))
     {
         print_res(str);
         return 0;
     }
-    recursive(str, len, to_remove, i, 0);
+    recursive(str, len, min, i, 0);
 
     return 0;
 }

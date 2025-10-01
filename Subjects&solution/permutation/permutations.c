@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-int len(char *s)
+int ft_strlen(char *s)
 {
 	int i = 0;
 	while (s[i])
@@ -16,20 +16,20 @@ void swap(char *a, char *b)
 	*b = t;
 }
 
-void recursive(char *s, int x, int y)
+void recursive(char *s, int x, int len)
 {
-	if (x == y)
+	if (x == len)
 	{
-		write(1, s, len(s));
+		write(1, s, ft_strlen(s));
 		write(1, "\n", 1);
 		return;
 	}
 
 	int i = x;
-	while (i <= y)
+	while (i <= len)
 	{
 		swap(&s[x], &s[i]);
-		recursive(s, x + 1, y);
+		recursive(s, x + 1, len);
 		swap(&s[x], &s[i]);
 		i++;
 	}
@@ -37,7 +37,7 @@ void recursive(char *s, int x, int y)
 
 void sort_string(char *s)
 {
-	int n = len(s);
+	int n = ft_strlen(s);
 	int i = 0;
 	int j;
 
@@ -63,7 +63,7 @@ int main(int ac, char **av)
 	}
 
 	char *s = av[1];
-	int size = len(s);
+	int size = ft_strlen(s);
 	if (size == 0)
 	{
 		write(1, "\n", 1);
