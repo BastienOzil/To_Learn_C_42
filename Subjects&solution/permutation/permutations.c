@@ -1,6 +1,9 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+// Attention, derniere recursive pas dans l ordre alphabetiquer
+// A corriger
+
 int ft_strlen(char *s)
 {
 	int i = 0;

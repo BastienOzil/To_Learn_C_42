@@ -20,13 +20,13 @@ void print_res(int *res, int len)
 
 void recursive(int n, int count, int i, int total, int *s, int *res, int res_len)
 {
-    if (total == n && res_len > 0)
+    if (i == count && total == n && res_len > 0)
     {
         print_res(res, res_len);
         return;
     }
 
-    if (i >= count || total > n)
+    if (i >= count)
         return;
 
     res[res_len] = s[i];
@@ -47,16 +47,12 @@ int main(int ac, char **av)
     int count = ac - 2;
     int *s = malloc(sizeof(int) * count);
     if (!s)
-    {
-        write(1, "\n", 1);
         return 0;
-    }
 
     int *res = malloc(sizeof(int) * count);
     if (!res)
     {
         free(s);
-        write(1, "\n", 1);
         return 0;
     }
 
@@ -67,6 +63,9 @@ int main(int ac, char **av)
         s[i] = atoi(av[i + 2]);
         i++;
     }
+
+    if (n == 0)
+        printf("\n");
 
     recursive(n, count, 0, 0, s, res, 0);
 
