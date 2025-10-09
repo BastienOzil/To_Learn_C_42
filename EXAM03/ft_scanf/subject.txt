@@ -1,0 +1,20 @@
+Nom de l'affectation : ft_scanf
+Fichiers attendus : ft_scanf.c
+Fonctions autorisées : fgetc, ungetc, ferror, feof, isspace, isdigit, stdin, va_start, va_arg, va_copy, va_end
+--------------------------------------------------------------------------------
+
+Écrivez une fonction nommée « ft_scanf » qui reproduira le scanf réel avec les contraintes suivantes :
+
+- Elle ne gérera que les convert suivantes : s, d et c
+- Vous n'avez pas à gérer les options *, m et '
+- Vous n'avez pas à gérer la largeur maximale du champ
+- Vous n'avez pas à gérer les caractères de modification de type (h, hh, l, etc.)
+- Vous n'avez pas à gérer les convert commençant par %n$
+
+Votre fonction doit être déclarée comme suit :
+
+int ft_scanf(const char *, ... );
+
+Vous trouverez dans ce répertoire un fichier contenant une partie du code dont vous aurez besoin ; il vous suffit de le compléter.
+
+Pour tester votre programme, comparez vos résultats avec le scanf réel.

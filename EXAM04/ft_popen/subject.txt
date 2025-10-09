@@ -1,0 +1,34 @@
+Dossier: ft_popen
+Fichiers : ft_popen.c
+Fonctions autorisées : pipe, fork, dup2, execvp, close, exit
+
+Écrire la fonction suivante :
+int ft_popen(const char *file, char *const argv[], char type);
+La fonction doit lancer l'exécutable file avec les arguments argv (en utilisant execvp).
+
+Si type est 'r' : la fonction doit retourner un descripteur de fichier connecté à la sortie de la commande (vous pouvez lire ce que la commande écrit)
+Si type est 'w' : la fonction doit retourner un descripteur de fichier connecté à l'entrée de la commande (vous pouvez écrire vers la commande)
+
+En cas d'erreur ou de paramètre invalide, la fonction doit retourner -1.
+Exemples d'utilisation:
+
+Exemple 1 : Lire la sortie de ls
+int main()
+{
+    int  fd;
+    char *line;
+    fd = ft_popen("ls", (char *const []){"ls", NULL}, 'r');
+    while ((line = get_next_line(fd)))
+        ft_putstr(line);
+    return (0);
+}
+
+Exemple 2 : Chaîner ls et grep
+int main() {
+    int fd = ft_popen("ls", (char *const []){"ls", NULL}, 'r');
+    dup2(fd, 0);  // Connecter la sortie de ls à stdin
+    fd = ft_popen("grep", (char *const []){"grep", "c", NULL}, 'r');
+    char *line;
+    while ((line = get_next_line(fd)))
+        printf("%s", line);
+}
